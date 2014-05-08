@@ -1,6 +1,6 @@
 package com.annotation.test;
 
-import com.annotation.core.ColumnInfo;
+import com.annotation.entity.ColumnInfo;
 
 public class ColumnInfoTest {
 

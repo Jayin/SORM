@@ -31,3 +31,19 @@ to create a sql	:
 
 	new Creator().from(User.class).build()
 ```
+### selcte
+
+```java  
+
+	String sql = new Selector("id","title","content") //the result columns. select all(*) when nothing here
+					.from(Database.class)  //table
+					.distinct() // all() or distinct()
+					.where("showFlag","=", 1 + "")   //`where` expression
+					.and().where("version", "!=", "0")
+					.groupBy("id","title")  //more than one
+					.orderBy("id") //ablt to more than one
+					.limit(10)
+					.offset(10)
+					.build();
+
+```

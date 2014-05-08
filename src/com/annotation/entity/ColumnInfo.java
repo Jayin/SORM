@@ -1,4 +1,4 @@
-package com.annotation.core;
+package com.annotation.entity;
 
 public class ColumnInfo {
 	/** 列名**/
