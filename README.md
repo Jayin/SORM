@@ -48,7 +48,7 @@ to create a sql	:
 
 ```
 
-### deleter
+### delete
 
 ```java  
 
