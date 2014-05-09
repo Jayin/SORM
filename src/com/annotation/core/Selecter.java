@@ -3,13 +3,13 @@ package com.annotation.core;
 import com.annotation.entity.Sqlable;
 import com.annotation.utils.ReflectionUtils;
 
-public class Selector implements Sqlable {
+public class Selecter implements Sqlable {
 	String _table;
 	int __limit, __offset;
 	boolean _distinct, _all;
 	StringBuffer _where, _groupBy, _orderBy, _resultColumn;
 
-	public Selector(String... resultColumn) {
+	public Selecter(String... resultColumn) {
 		_resultColumn = new StringBuffer();
 		_where = new StringBuffer();
 		_groupBy = new StringBuffer();
@@ -26,41 +26,41 @@ public class Selector implements Sqlable {
 
 	}
 
-	public Selector from(Class<?> cls) {
+	public Selecter from(Class<?> cls) {
 		_table = ReflectionUtils.getTableName(cls);
 		return this;
 	}
 
-	public Selector distinct() {
+	public Selecter distinct() {
 		_distinct = true;
 		_all = false;
 		return this;
 	}
 
-	public Selector all() {
+	public Selecter all() {
 		_distinct = false;
 		_all = true;
 		return this;
 	}
 
-	public Selector where(String column, String operation, String value) {
+	public Selecter where(String column, String operation, String value) {
 		_where.append(column).append(" ");
 		_where.append(operation).append(" ");
 		_where.append(value).append(" ");
 		return this;
 	}
 
-	public Selector and() {
+	public Selecter and() {
 		_where.append("and").append(" ");
 		return this;
 	}
 
-	public Selector or() {
+	public Selecter or() {
 		_where.append("or").append(" ");
 		return this;
 	}
 
-	public Selector groupBy(String... columns) {
+	public Selecter groupBy(String... columns) {
 		for (String c : columns) {
 			_groupBy.append(c).append(",");
 		}
@@ -70,7 +70,7 @@ public class Selector implements Sqlable {
 		return this;
 	}
 
-	public Selector orderBy(String... columns) {
+	public Selecter orderBy(String... columns) {
 		for (String c : columns) {
 			_orderBy.append(c).append(",");
 		}
@@ -80,12 +80,12 @@ public class Selector implements Sqlable {
 		return this;
 	}
 
-	public Selector limit(int _limit) {
+	public Selecter limit(int _limit) {
 		__limit = _limit;
 		return this;
 	}
 
-	public Selector offset(int _offset) {
+	public Selecter offset(int _offset) {
 		__offset = _offset;
 		return this;
 	}

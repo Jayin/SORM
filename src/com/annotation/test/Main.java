@@ -1,6 +1,6 @@
 package com.annotation.test;
 
-import com.annotation.core.Creator;
+import com.annotation.core.Creater;
 
 
 public class Main {
@@ -9,7 +9,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		 System.out.println(new Creator().from(User.class).build());
+		 System.out.println(new Creater().from(User.class).build());
 	}
 
 }

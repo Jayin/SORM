@@ -1,6 +1,6 @@
 package com.annotation.test;
 
-import com.annotation.core.Selector;
+import com.annotation.core.Selecter;
 
 public class SelectorTest {
 
@@ -8,7 +8,7 @@ public class SelectorTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String sql = new Selector("id","title","content") //the result columns. select all(*) when nothing here
+		String sql = new Selecter("id","title","content") //the result columns. select all(*) when nothing here
 					.from(Database.class)  //table
 					.distinct() // all() or distinct()
 					.where("showFlag","=", 1 + "")   //`where` expression
