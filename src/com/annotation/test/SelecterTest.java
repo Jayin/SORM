@@ -2,7 +2,7 @@ package com.annotation.test;
 
 import com.annotation.core.Selecter;
 
-public class SelectorTest {
+public class SelecterTest {
 
 	/**
 	 * @param args

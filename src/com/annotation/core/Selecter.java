@@ -1,9 +1,10 @@
 package com.annotation.core;
 
 import com.annotation.entity.Sqlable;
+import com.annotation.entity.Wherable;
 import com.annotation.utils.ReflectionUtils;
 
-public class Selecter implements Sqlable {
+public class Selecter implements Sqlable ,Wherable<Selecter>{
 	String _table;
 	int __limit, __offset;
 	boolean _distinct, _all;
@@ -23,7 +24,6 @@ public class Selecter implements Sqlable {
 		if(_resultColumn.length()>0){
 			_resultColumn.deleteCharAt(_resultColumn.length()-1);
 		}
-
 	}
 
 	public Selecter from(Class<?> cls) {
