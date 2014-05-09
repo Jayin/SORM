@@ -1,8 +1,5 @@
 package com.annotation.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 public class _ {
 	/**
 	 * Returns true if the string is null or 0-length.

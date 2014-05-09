@@ -29,13 +29,13 @@ the model
 to create a sql	:  
 ```java  
 
-	new Creator().from(User.class).build()
+	new Creater().from(User.class).build()
 ```
 ### selcte
 
 ```java  
 
-	String sql = new Selector("id","title","content") //the result columns. select all(*) when nothing here
+	String sql = new Selecter("id","title","content") //the result columns. select all(*) when nothing here
 					.from(Database.class)  //table
 					.distinct() // all() or distinct()
 					.where("showFlag","=", 1 + "")   //`where` expression
@@ -45,5 +45,17 @@ to create a sql	:
 					.limit(10)
 					.offset(10)
 					.build();
+
+```
+
+### deleter
+
+```java  
+
+	String sql = new Deleter()
+				.from(User.class)
+				.where("id", "=", "1")
+				.and().where("age", ">", "18")
+				.build();
 
 ```

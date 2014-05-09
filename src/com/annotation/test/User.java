@@ -10,12 +10,12 @@ public class User {
 	@Column
 	private String name;
 
+	@Column
 	private int age;
 	
 	@PrimaryKey 
-	private int d;
+	private int id;
 
-	private float f;
 	@Unique
 	private long saveTime;
 
