@@ -46,7 +46,7 @@ public class Selecter implements Sqlable ,Wherable<Selecter>{
 	public Selecter where(String column, String operation, String value) {
 		_where.append(column).append(" ");
 		_where.append(operation).append(" ");
-		_where.append(value).append(" ");
+		_where.append("\"").append(value).append("\"").append(" ");
 		return this;
 	}
 

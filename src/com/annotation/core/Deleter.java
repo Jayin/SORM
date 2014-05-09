@@ -21,7 +21,7 @@ public class Deleter implements Sqlable ,Wherable<Deleter>{
 	public Deleter where(String column, String operation, String value) {
 		_where.append(column).append(" ");
 		_where.append(operation).append(" ");
-		_where.append(value).append(" ");
+		_where.append("\"").append(value).append("\"").append(" ");
 		return this;
 	}
 
