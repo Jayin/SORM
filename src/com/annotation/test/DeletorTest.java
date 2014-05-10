@@ -1,13 +1,13 @@
 package com.annotation.test;
 
-import com.annotation.core.Deleter;
+import com.annotation.core.Deletor;
 
-public class DeleterTest {
+public class DeletorTest {
 	public static void main(String[] args) {
-		String sql = new Deleter()
+		String sql = new Deletor()
 						.from(User.class)
 						.where("id", "=", "1")
-						.and().where("name", "!=", "Jason")
+						.or().where("\"1\"", "=", "1")
 						.build();
 		System.out.println(sql);
 					   

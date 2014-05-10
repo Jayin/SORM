@@ -4,33 +4,33 @@ import com.annotation.entity.Sqlable;
 import com.annotation.entity.Wherable;
 import com.annotation.utils.ReflectionUtils;
 
-public class Deleter implements Sqlable ,Wherable<Deleter>{
+public class Deletor implements Sqlable ,Wherable<Deletor>{
 
 	private String _talbe;
 	private StringBuffer _where;
 
-	public Deleter() {
+	public Deletor() {
 		_where = new StringBuffer();
 	}
 
-	public Deleter from(Class<?> cls) {
+	public Deletor from(Class<?> cls) {
 		_talbe = ReflectionUtils.getTableName(cls);
 		return this;
 	}
 
-	public Deleter where(String column, String operation, String value) {
+	public Deletor where(String column, String operation, String value) {
 		_where.append(column).append(" ");
 		_where.append(operation).append(" ");
 		_where.append("\"").append(value).append("\"").append(" ");
 		return this;
 	}
 
-	public Deleter and() {
+	public Deletor and() {
 		_where.append("and").append(" ");
 		return this;
 	}
 
-	public Deleter or() {
+	public Deletor or() {
 		_where.append("or").append(" ");
 		return this;
 	}
