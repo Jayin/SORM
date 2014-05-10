@@ -35,7 +35,7 @@ to create a sql	:
 
 ```java  
 
-	String sql = new Selecter("id","title","content") //the result columns. select all(*) when nothing here
+	String sql = new Selector("id","title","content") //the result columns. select all(*) when nothing here
 					.from(Database.class)  //table
 					.distinct() // all() or distinct()
 					.where("showFlag","=", 1 + "")   //`where` expression
