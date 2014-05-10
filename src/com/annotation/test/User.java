@@ -37,4 +37,28 @@ public class User {
 		this.name = name;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public long getSaveTime() {
+		return saveTime;
+	}
+
+	public void setSaveTime(long saveTime) {
+		this.saveTime = saveTime;
+	}
+
+	public StringBuffer getSb() {
+		return sb;
+	}
+
+	public void setSb(StringBuffer sb) {
+		this.sb = sb;
+	}
+
 }

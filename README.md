@@ -31,6 +31,16 @@ to create a sql	:
 
 	new Creater().from(User.class).build()
 ```
+
+### insert
+```java  
+
+    User u = new User();  
+    u.setAge(11);  
+    u.setName("aaa");  
+    String sql = new Inserter().insert(u ).build();  
+```  
+
 ### selcte
 
 ```java  
@@ -52,7 +62,7 @@ to create a sql	:
 
 ```java  
 
-	String sql = new Deleter()
+	String sql = new Deletor()
 				.from(User.class)
 				.where("id", "=", "1")
 				.and().where("age", ">", "18")
