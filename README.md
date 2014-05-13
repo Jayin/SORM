@@ -26,7 +26,7 @@ the model
 
 ```
 
-to create a sql	:  
+to build it  
 ```java  
 
 	new Creater().from(User.class).build()
@@ -41,8 +41,18 @@ to create a sql	:
     String sql = new Inserter().insert(u ).build();  
 ```  
 
-### selcte
+### delete
+```java  
 
+	String sql = new Deletor()
+				.from(User.class)
+				.where("id", "=", "1")
+				.and().where("age", ">", "18")
+				.build();
+
+```
+
+### selcte
 ```java  
 
 	String sql = new Selector("id","title","content") //the result columns. select all(*) when nothing here
@@ -58,14 +68,17 @@ to create a sql	:
 
 ```
 
-### delete
+### update
+```java
 
-```java  
-
-	String sql = new Deletor()
-				.from(User.class)
-				.where("id", "=", "1")
-				.and().where("age", ">", "18")
-				.build();
-
+	User u = new User();
+	u.setAge(11);
+	u.setName("bbb");
+	u.setSaveTime(12354546);
+	u.setId(1);
+	String sql = new Updater()
+					.update(u)
+					.where("id", "=", "1")
+					.build();
 ```
+

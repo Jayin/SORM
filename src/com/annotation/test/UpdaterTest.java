@@ -13,7 +13,10 @@ public class UpdaterTest {
 		u.setName("bbb");
 		u.setSaveTime(12354546);
 		u.setId(1);
-		String sql = new Updater().update(u).where("id", "=", "1").build();
+		String sql = new Updater()
+						.update(u)
+						.where("id", "=", "1")
+						.build();
 		System.out.println(sql);
 
 	}
