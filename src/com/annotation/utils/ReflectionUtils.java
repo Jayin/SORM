@@ -1,9 +1,13 @@
 package com.annotation.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.annotation.Column;
+import com.annotation.Ignore;
 import com.annotation.Table;
 
 public class ReflectionUtils {
@@ -43,6 +47,7 @@ public class ReflectionUtils {
 
 	/**
 	 * get Method by specified method name
+	 * 
 	 * @param cls
 	 * @param method_name
 	 * @return null if not found
@@ -56,7 +61,7 @@ public class ReflectionUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * return null if not support that data.<br>
 	 * return null means that you can't save it in current version<br>
@@ -77,6 +82,43 @@ public class ReflectionUtils {
 			return "TEXT";
 		} else {
 			return null;
+		}
+	}
+	/**
+	 * get the fields that not wrap with @Ignore or<br>
+	 * it's type of Integer Long Float Double or String
+	 * @param cls
+	 * @return 
+	 */
+	public static Field[] getColumnFields(Class<?> cls) {
+		Field[] fields = cls.getDeclaredFields();
+		List<Field> list = new ArrayList<Field>();
+		for (Field field : fields) {
+			if (field.getAnnotation(Ignore.class) == null
+					&& ReflectionUtils.getTypeName(field) != null)
+				list.add(field);
+		}
+		return (Field[]) list.toArray(new Field[] {});
+	}
+	/**
+	 * invoke the getXXX() 
+	 * @param obj
+	 * @param method_name
+	 * @return the value ,mostly it's a String
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	public static String invokeGetMethod(Object obj,String method_name) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+		Method getter = ReflectionUtils.getMethod(obj.getClass(),
+				method_name);
+		try{
+			Object _value = getter.invoke(obj);
+			return _value.toString();
+		}catch (NullPointerException e) {
+			throw new IllegalStateException(
+					"you should create the method:" + method_name
+							+ "() in class " + obj.getClass().getSimpleName());
 		}
 	}
 }
