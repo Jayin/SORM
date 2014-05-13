@@ -103,7 +103,7 @@ public class ReflectionUtils {
 	/**
 	 * invoke the getXXX() 
 	 * @param obj
-	 * @param method_name
+	 * @param method_name getXX();
 	 * @return the value ,mostly it's a String
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
@@ -120,5 +120,17 @@ public class ReflectionUtils {
 					"you should create the method:" + method_name
 							+ "() in class " + obj.getClass().getSimpleName());
 		}
+	}
+	/**
+	 * invoke the getXXX() by giving field
+	 * @param obj
+	 * @param field
+	 * @return the value ,mostly it's a String
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	public static String invokeGetMethod(Object obj,Field field) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+		return invokeGetMethod(obj, NameBuilder.buildGetter(field.getName()));
 	}
 }
