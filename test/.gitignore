@@ -29,5 +29,3 @@ proguard/
 bin/
 gen/
 *.png
-/res
-/libs
