@@ -84,11 +84,13 @@ public class ReflectionUtils {
 			return null;
 		}
 	}
+
 	/**
 	 * get the fields that not wrap with @Ignore or<br>
 	 * it's type of Integer Long Float Double or String
+	 * 
 	 * @param cls
-	 * @return 
+	 * @return
 	 */
 	public static Field[] getColumnFields(Class<?> cls) {
 		Field[] fields = cls.getDeclaredFields();
@@ -100,29 +102,37 @@ public class ReflectionUtils {
 		}
 		return (Field[]) list.toArray(new Field[] {});
 	}
+
 	/**
-	 * invoke the getXXX() 
+	 * invoke the getXXX()
+	 * 
 	 * @param obj
-	 * @param method_name getXX();
-	 * @return the value ,mostly it's a String
+	 * @param method_name
+	 *            getXX();
+	 * @return the value ,mostly it's a String,can be null
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	public static String invokeGetMethod(Object obj,String method_name) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
-		Method getter = ReflectionUtils.getMethod(obj.getClass(),
-				method_name);
-		try{
-			Object _value = getter.invoke(obj);
+	public static String invokeGetMethod(Object obj, String method_name)
+			throws IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException {
+		Method getter = ReflectionUtils.getMethod(obj.getClass(), method_name);
+		try {
+			Object _value = getter.invoke(obj);// may cause NPE
+			if (_value == null)
+				return null;
 			return _value.toString();
-		}catch (NullPointerException e) {
-			throw new IllegalStateException(
-					"you should create the method:" + method_name
-							+ "() in class " + obj.getClass().getSimpleName());
+		} catch (NullPointerException e) {
+			throw new IllegalStateException("you should create the method:"
+					+ method_name + "() in class "
+					+ obj.getClass().getSimpleName());
 		}
 	}
+
 	/**
 	 * invoke the getXXX() by giving field
+	 * 
 	 * @param obj
 	 * @param field
 	 * @return the value ,mostly it's a String
@@ -130,7 +140,9 @@ public class ReflectionUtils {
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	public static String invokeGetMethod(Object obj,Field field) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+	public static String invokeGetMethod(Object obj, Field field)
+			throws IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException {
 		return invokeGetMethod(obj, NameBuilder.buildGetter(field.getName()));
 	}
 }

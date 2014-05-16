@@ -39,11 +39,6 @@ public class Inserter implements Sqlable {
 		return this;
 	}
 
-	public String getValue(Object value) {
-		Class<?> c = value.getClass();
-		return c.toString();
-	}
-
 	@Override
 	public String build() {
 		StringBuffer builder = new StringBuffer();
