@@ -52,7 +52,7 @@ public class User extends Model {
 ```
 
 
-### automanti    insert or update
+### update & automantily insert if not exist  
 ```java  
 
 User u1 = new User();  
