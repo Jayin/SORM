@@ -1,6 +1,9 @@
 package com.annotation.utils;
 
+import android.util.Log;
+
 public class _ {
+	private static final String TAG = "debug";
 	/**
 	 * Returns true if the string is null or 0-length.
 	 * 
@@ -21,8 +24,8 @@ public class _ {
 		}
 	}
 
-	public static void o(CharSequence cs) {
-		System.out.println(cs);
+	public static void d(String s) {
+		Log.d(TAG, s);
 	}
 
 }
