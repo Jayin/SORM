@@ -11,37 +11,74 @@ simple orm for sqlite
 the model  
 ```java  
 
-	@Table  
-	public class User {
-		@PrimaryKey
-		private long id
+@Table  
+public class User extends Model {  
 
-		@Column
-		private String name;
+	@Column  
+	private long userid; 
 
-		@Column
-		private int age;
-	
+	@Column   
+	private int age;  
+
+	@Column  
+	private String name;  
+
+	public long getUserid() {
+		return userid;
 	}
+
+	public void setUserid(long userid) {
+		this.userid = userid;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+}
 
 ```
 
-to build it  
+
+### automanti    insert or update
+```java  
+
+User u1 = new User();  
+u1.setAge(12);   
+u1.setName("Jack");  
+u1.setUserid(3112002720L);  
+u1.save(getContext());//automanti   
+```
+
+### Five Operation
+* build entity  
 ```java  
 
 	new Creater().from(User.class).build()
 ```
 
-### insert
+* insert  
 ```java  
-
-    User u = new User();  
-    u.setAge(11);  
-    u.setName("aaa");  
-    String sql = new Inserter().insert(u ).build();  
+  
+    User u = new User();    
+    u.setAge(11);     
+    u.setName("aaa");     
+    String sql = new Inserter().insert(u ).build();    
 ```  
 
-### delete
+* delete  
 ```java  
 
 	String sql = new Deletor()
@@ -52,7 +89,7 @@ to build it
 
 ```
 
-### selcte
+* selcte  
 ```java  
 
 	String sql = new Selector("id","title","content") //the result columns. select all(*) when nothing here
@@ -68,7 +105,7 @@ to build it
 
 ```
 
-### update
+* update  
 ```java
 
 	User u = new User();
