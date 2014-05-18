@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.annotation.Column;
@@ -118,6 +119,7 @@ public class ReflectionUtils {
 	 * @return
 	 */
 	public static Field[] getColumnFields(Class<?> cls) {
+		_.d("getColumnFields -->"+cls.getName());
 		Field[] fields = cls.getDeclaredFields();
 		List<Field> list = new ArrayList<Field>();
 		for (Field field : fields) {
@@ -125,6 +127,8 @@ public class ReflectionUtils {
 					&& ReflectionUtils.getTypeName(field) != null)
 				list.add(field);
 		}
+		if(cls.getSuperclass() != null)
+			list.addAll(Arrays.asList(getColumnFields(cls.getSuperclass())));
 		return (Field[]) list.toArray(new Field[] {});
 	}
 

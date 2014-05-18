@@ -1,5 +1,7 @@
 package io.github.jayin.test;
 
+import io.github.jayin.test.entity.User;
+
 import java.util.List;
 
 import android.test.AndroidTestCase;

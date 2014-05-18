@@ -1,4 +1,4 @@
-package io.github.jayin.test;
+package io.github.jayin.test.entity;
 
 import com.annotation.Column;
 import com.annotation.Table;

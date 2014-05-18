@@ -22,16 +22,19 @@ public class Inserter implements Sqlable {
 			Field[] fields = ReflectionUtils.getColumnFields(obj.getClass());
 			for (Field field : fields) {
 				String columnName = ReflectionUtils.getColumnName(field);
+				if (columnName.equals("__id"))
+					continue;
 				_targetColumn.append(columnName).append(",");
 				String method_name = NameBuilder.buildGetter(columnName);
-				_values.append("\"").append(ReflectionUtils.invokeGetMethod(obj, method_name))
-						.append("\"").append(",");
+				_values.append("\"")
+						.append(ReflectionUtils.invokeGetMethod(obj,
+								method_name)).append("\"").append(",");
 			}
 			_targetColumn.deleteCharAt(_targetColumn.length() - 1);
 			_values.deleteCharAt(_values.length() - 1);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 		return this;
 	}
 

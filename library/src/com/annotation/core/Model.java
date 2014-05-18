@@ -8,6 +8,7 @@ import com.annotation.Ignore;
 import com.annotation.PrimaryKey;
 import com.annotation.utils.DBHelper;
 import com.annotation.utils.ReflectionUtils;
+import com.annotation.utils._;
 
 public class Model {
 
@@ -30,6 +31,7 @@ public class Model {
 						.build();
 			}
 			createTable(db, this.getClass());
+			_.d("execSql-->"+sql);
 			db.execSQL(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
