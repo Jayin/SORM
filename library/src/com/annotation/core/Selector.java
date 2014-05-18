@@ -4,7 +4,8 @@ import com.annotation.entity.Sqlable;
 import com.annotation.entity.Wherable;
 import com.annotation.utils.ReflectionUtils;
 
-public class Selector implements Sqlable ,Wherable<Selector>{
+public class Selector implements Sqlable, Wherable<Selector> {
+	Class<?> _entity;
 	String _table;
 	int __limit, __offset;
 	boolean _distinct, _all;
@@ -21,13 +22,14 @@ public class Selector implements Sqlable ,Wherable<Selector>{
 		for (String c : resultColumn) {
 			_resultColumn.append(c).append(",");
 		}
-		if(_resultColumn.length()>0){
-			_resultColumn.deleteCharAt(_resultColumn.length()-1);
+		if (_resultColumn.length() > 0) {
+			_resultColumn.deleteCharAt(_resultColumn.length() - 1);
 		}
 	}
 
 	public Selector from(Class<?> cls) {
 		_table = ReflectionUtils.getTableName(cls);
+		_entity = cls;
 		return this;
 	}
 
@@ -64,8 +66,8 @@ public class Selector implements Sqlable ,Wherable<Selector>{
 		for (String c : columns) {
 			_groupBy.append(c).append(",");
 		}
-		if(_groupBy.length()>0){
-			_groupBy.deleteCharAt(_groupBy.length()-1).append(" ");
+		if (_groupBy.length() > 0) {
+			_groupBy.deleteCharAt(_groupBy.length() - 1).append(" ");
 		}
 		return this;
 	}
@@ -74,8 +76,8 @@ public class Selector implements Sqlable ,Wherable<Selector>{
 		for (String c : columns) {
 			_orderBy.append(c).append(",");
 		}
-		if(_orderBy.length()>0){
-			_orderBy.deleteCharAt(_orderBy.length()-1).append(" ");
+		if (_orderBy.length() > 0) {
+			_orderBy.deleteCharAt(_orderBy.length() - 1).append(" ");
 		}
 		return this;
 	}
@@ -99,12 +101,12 @@ public class Selector implements Sqlable ,Wherable<Selector>{
 		} else {
 			builder.append("All").append(" ");
 		}
-		if(_resultColumn.length()>0){
+		if (_resultColumn.length() > 0) {
 			builder.append(_resultColumn).append(" ");
-		}else{
+		} else {
 			builder.append("*").append(" ");
 		}
-		
+
 		builder.append("From").append(" ").append(_table).append(" ");
 		if (_where.length() > 0)
 			builder.append("Where").append(" ").append(_where).append(" ");
@@ -121,6 +123,10 @@ public class Selector implements Sqlable ,Wherable<Selector>{
 		if (__offset > 0)
 			builder.append("Offset").append(" ").append(__offset).append(" ");
 		return builder.toString();
+	}
+
+	public Class<?> getEntity() {
+		return _entity;
 	}
 
 }

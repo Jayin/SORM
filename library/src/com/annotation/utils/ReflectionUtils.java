@@ -44,9 +44,31 @@ public class ReflectionUtils {
 			return c.name();
 		}
 	}
+	/**
+	 * get Field by specified field name<br>
+	 * <strong>it will search the field from current Class to Supper
+	 * Class</strong>
+	 * 
+	 * @param cls
+	 * @param method_name
+	 * @return null if not found
+	 */
+	public static Field getDeclaredField(Class<?> cls, String fieldName) {
+		try {
+			Field field = cls.getDeclaredField(fieldName);
+			return field;
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			if (cls.getSuperclass() != null)
+				return getDeclaredField(cls.getSuperclass(), fieldName);
+		}
+		return null;
+	}
 
 	/**
-	 * get Method by specified method name
+	 * get Method by specified method name<br>
+	 * <strong>it will search the method from current Class to Supper
+	 * Class</strong>
 	 * 
 	 * @param cls
 	 * @param method_name
@@ -59,7 +81,10 @@ public class ReflectionUtils {
 				return m;
 			}
 		}
-		return null;
+		if (cls.getSuperclass() != null)
+			return getMethod(cls.getSuperclass(), method_name);
+		else
+			return null;
 	}
 
 	/**

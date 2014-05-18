@@ -37,4 +37,11 @@ public class User extends Model {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userid=" + userid + ", age=" + age + ", name=" + name
+				+ ", __id=" + get__id()
+				+"]";
+	}
+
 }
