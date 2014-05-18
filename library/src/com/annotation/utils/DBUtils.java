@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 import android.database.Cursor;
 
-public class CursorUtils {
+public class DBUtils {
 	/**
 	 * genearate a entity from Cursor
 	 * @param cursor

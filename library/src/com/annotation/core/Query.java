@@ -7,7 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.annotation.utils.CursorUtils;
+import com.annotation.utils.DBUtils;
 import com.annotation.utils.DBHelper;
 
 public class Query {
@@ -30,7 +30,7 @@ public class Query {
 		db = new DBHelper(context).getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
 		while (cursor.moveToNext()) {
-			T entity = CursorUtils.cursor2Entity(cursor, _entity);
+			T entity = DBUtils.cursor2Entity(cursor, _entity);
 			if (entity != null)
 				result.add(entity);
 		}
