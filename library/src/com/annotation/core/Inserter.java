@@ -29,13 +29,9 @@ public class Inserter implements Sqlable {
 			}
 			_targetColumn.deleteCharAt(_targetColumn.length() - 1);
 			_values.deleteCharAt(_values.length() - 1);
-		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
+		} 
 		return this;
 	}
 

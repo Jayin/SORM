@@ -37,7 +37,6 @@ public class ColumnInfo {
 	}
 
 	public String build() {
-		// remove the last " "
 		if(constraint.length()>0)constraint.deleteCharAt(constraint.length() - 1);
 		return columnName + " " + typeName + " " + constraint.toString();
 	}

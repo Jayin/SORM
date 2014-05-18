@@ -1,6 +1,5 @@
 package com.annotation.utils;
 
-import android.annotation.SuppressLint;
 
 public class NameBuilder {
 
