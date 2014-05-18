@@ -89,7 +89,7 @@ u1.save(getContext());//automanti
 
 ```
 
-* selecte  
+* select  
 ```java  
 
 	String sql = new Selector("id","title","content") //the result columns. select all(*) when nothing here
