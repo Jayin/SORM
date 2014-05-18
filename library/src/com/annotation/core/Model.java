@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.annotation.Ignore;
 import com.annotation.PrimaryKey;
 import com.annotation.utils.DBHelper;
+import com.annotation.utils.DBUtils;
 import com.annotation.utils.ReflectionUtils;
 import com.annotation.utils._;
 
@@ -30,7 +31,8 @@ public class Model {
 				sql = new Updater().update(this).where("__id", "=", __id + "")
 						.build();
 			}
-			createTable(db, this.getClass());
+//			createTable(db, this.getClass());
+			DBUtils.createTable(db, this.getClass());
 			_.d("execSql-->"+sql);
 			db.execSQL(sql);
 		} catch (Exception e) {
@@ -41,25 +43,7 @@ public class Model {
 		}
 	}
 
-	/**
-	 * create table if not exist
-	 * 
-	 * @param db
-	 * @param cls
-	 */
-	private void createTable(SQLiteDatabase db, Class<? extends Model> cls) {
-		String sql = "select * from sqlite_master where type =\"table\" and name = \""
-				+ ReflectionUtils.getTableName(cls) + "\"";
-		Cursor cursor = db.rawQuery(sql, null);
-		boolean isExist = false;
-		if (cursor.moveToNext()) {
-			isExist = true;
-		}
-		if (!isExist) {
-			sql = new Creater().from(cls).build();
-			db.execSQL(sql);
-		}
-	}
+
 
 	public void delete(Context context) {
 

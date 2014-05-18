@@ -3,7 +3,11 @@ package com.annotation.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import com.annotation.core.Creater;
+import com.annotation.core.Model;
+
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class DBUtils {
 	/**
@@ -60,6 +64,26 @@ public class DBUtils {
 			return null;
 		}
 		return entity;
+	}
+	
+	/**
+	 * create table if not exist
+	 * 
+	 * @param db
+	 * @param cls
+	 */
+	public static void createTable(SQLiteDatabase db, Class<?> cls) {
+		String sql = "select * from sqlite_master where type =\"table\" and name = \""
+				+ ReflectionUtils.getTableName(cls) + "\"";
+		Cursor cursor = db.rawQuery(sql, null);
+		boolean isExist = false;
+		if (cursor.moveToNext()) {
+			isExist = true;
+		}
+		if (!isExist) {
+			sql = new Creater().from(cls).build();
+			db.execSQL(sql);
+		}
 	}
 
 }

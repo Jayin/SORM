@@ -17,7 +17,7 @@ public class Animal extends Model {
 	private String kind;
 
 	@Column
-	private String from;
+	private String location;
 
 	public int getId() {
 		return id;
@@ -43,12 +43,13 @@ public class Animal extends Model {
 		this.kind = kind;
 	}
 
-	public String getFrom() {
-		return from;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setFrom(String from) {
-		this.from = from;
+	public void setLocation(String location) {
+		this.location = location;
 	}
+
  
 }
