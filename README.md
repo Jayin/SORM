@@ -55,13 +55,23 @@ public class User extends Model {
 ### update & automantily insert if not exist  
 ```java  
 
-User u1 = new User();  
-u1.setAge(12);   
-u1.setName("Jack");  
-u1.setUserid(3112002720L);  
-u1.save(getContext());//automanti   
+	Admin a1 = new Admin();  
+	a1.setAdminName("a111");  
+	a1.setId(1);  
+	a1.save(getContext());  
 ```
 
+### delete 
+
+```java
+
+	List<Admin> admins = new Query(new Selector().from(Admin.class))
+				.excute(getContext());  
+	for(Admin a: admins){  
+		a.delete(getContext());  
+	}  
+```
+  
 ### Five Operation
 * build entity  
 ```java  
