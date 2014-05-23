@@ -7,7 +7,6 @@ import com.annotation.Ignore;
 import com.annotation.PrimaryKey;
 import com.annotation.utils.DBHelper;
 import com.annotation.utils.DBUtils;
-import com.annotation.utils._;
 
 public class Model {
 
@@ -30,14 +29,15 @@ public class Model {
 				sql = new Updater().update(this).where("__id", "=", __id + "")
 						.build();
 			}
-//			db.beginTransaction();
+			db.beginTransaction();
 			DBUtils.createTable(db, this.getClass());
 			db.execSQL(sql);
+			db.setTransactionSuccessful();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (db != null) {
-//				db.endTransaction();
+				db.endTransaction();
 				db.close();
 			}
 		}
@@ -52,21 +52,18 @@ public class Model {
 			db = new DBHelper(context).getWritableDatabase();
 			sql = new Deletor().from(this.getClass())
 					.where("__id", "=", String.valueOf(__id)).build();
-			_.d("delete -->sql:"+sql);
-//			db.beginTransaction();
+			db.beginTransaction();
 			DBUtils.createTable(db, this.getClass());
 			db.execSQL(sql);
-			_.d("delete ok");
+			db.setTransactionSuccessful();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (db != null) {
-//				db.endTransaction();
+				db.endTransaction();
 				db.close();
 			}
-
 		}
-
 	}
 
 	public Long get__id() {
@@ -79,6 +76,6 @@ public class Model {
 
 	@Override
 	public String toString() {
-		return "Model [__id=" + __id + "]";
+		return " Model [__id=" + __id + "] ";
 	}
 }

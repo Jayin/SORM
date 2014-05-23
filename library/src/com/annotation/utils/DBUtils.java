@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import com.annotation.core.Creater;
-import com.annotation.core.Model;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
