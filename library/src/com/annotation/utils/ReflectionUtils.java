@@ -59,9 +59,11 @@ public class ReflectionUtils {
 			Field field = cls.getDeclaredField(fieldName);
 			return field;
 		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
 			if (cls.getSuperclass() != null)
 				return getDeclaredField(cls.getSuperclass(), fieldName);
+			else{
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
