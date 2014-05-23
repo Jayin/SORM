@@ -25,18 +25,24 @@ public class Query {
 			throw new NullPointerException("selector Can't be null");
 		String sql = selector.build();
 		// 执行查询，获得cursor
-		SQLiteDatabase db =  new DBHelper(context).getReadableDatabase();
-		//create table if not exist
-		DBUtils.createTable(db, _entity);
-		
-		Cursor cursor = db.rawQuery(sql, null);
-		while (cursor.moveToNext()) {
-			T entity = DBUtils.cursor2Entity(cursor, _entity);
-			if (entity != null)
-				result.add(entity);
-		}
+		SQLiteDatabase db = null;
+		try {
+			db = new DBHelper(context).getReadableDatabase();
+			// create table if not exist
+			DBUtils.createTable(db, _entity);
 
+			Cursor cursor = db.rawQuery(sql, null);
+			while (cursor.moveToNext()) {
+				T entity = DBUtils.cursor2Entity(cursor, _entity);
+				if (entity != null)
+					result.add(entity);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(db!= null)
+				db.close();
+		}
 		return result;
 	}
-
 }
