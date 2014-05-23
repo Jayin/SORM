@@ -16,7 +16,7 @@ public class BasicEntity extends Model {
 
 	@Override
 	public String toString() {
-		return "BasicEntity [id=" + id + "]";
+		return "BasicEntity [id=" + id + super.toString()+"]"  ;
 	}
 
 }

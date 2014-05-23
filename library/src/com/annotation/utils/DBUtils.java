@@ -71,19 +71,25 @@ public class DBUtils {
 	 * 
 	 * @param db
 	 * @param cls
+	 * @throws Exception 
 	 */
-	public static void createTable(SQLiteDatabase db, Class<?> cls) {
-		String sql = "select * from sqlite_master where type =\"table\" and name = \""
-				+ ReflectionUtils.getTableName(cls) + "\"";
-		Cursor cursor = db.rawQuery(sql, null);
-		boolean isExist = false;
-		if (cursor.moveToNext()) {
-			isExist = true;
+	public static void createTable(SQLiteDatabase db, Class<?> cls) throws Exception {
+		try{
+			String sql = "select * from sqlite_master where type =\"table\" and name = \""
+					+ ReflectionUtils.getTableName(cls) + "\"";
+			Cursor cursor = db.rawQuery(sql, null);
+			boolean isExist = false;
+			if (cursor.moveToNext()) {
+				isExist = true;
+			}
+			if (!isExist) {
+				sql = new Creater().from(cls).build();
+				db.execSQL(sql);
+			}
+		}catch(Exception e){
+			throw e;
 		}
-		if (!isExist) {
-			sql = new Creater().from(cls).build();
-			db.execSQL(sql);
-		}
+		
 	}
 
 }
