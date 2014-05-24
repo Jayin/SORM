@@ -28,7 +28,7 @@ public class Inserter implements Sqlable {
 				String method_name = NameBuilder.buildGetter(columnName);
 				_values.append("\"")
 						.append(ReflectionUtils.invokeGetMethod(obj,
-								method_name)).append("\"").append(",");
+								method_name).replaceAll("\\\"", "\\\\\"")).append("\"").append(",");
 			}
 			_targetColumn.deleteCharAt(_targetColumn.length() - 1);
 			_values.deleteCharAt(_values.length() - 1);

@@ -34,7 +34,7 @@ public class Updater implements Sqlable, Wherable<Updater> {
 	public Updater where(String column, String operation, String value) {
 		_where.append(column).append(" ");
 		_where.append(operation).append(" ");
-		_where.append("\"").append(value).append("\"").append(" ");
+		_where.append("\"").append(value.replaceAll("\\\"", "\\\\\"")).append("\"").append(" ");
 		return this;
 	}
 

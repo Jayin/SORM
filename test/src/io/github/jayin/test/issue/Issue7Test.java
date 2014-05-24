@@ -1,4 +1,4 @@
-package io.github.jayin.test;
+package io.github.jayin.test.issue;
 
 import io.github.jayin.test.entity.Animal;
 
