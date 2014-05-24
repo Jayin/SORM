@@ -121,7 +121,6 @@ public class ReflectionUtils {
 	 * @return
 	 */
 	public static Field[] getColumnFields(Class<?> cls) {
-		_.d("getColumnFields -->"+cls.getName());
 		Field[] fields = cls.getDeclaredFields();
 		List<Field> list = new ArrayList<Field>();
 		for (Field field : fields) {
