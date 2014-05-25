@@ -1,5 +1,7 @@
 package com.annotation.core;
 
+import java.lang.reflect.Field;
+
 import com.annotation.entity.Sqlable;
 import com.annotation.entity.Wherable;
 import com.annotation.utils.ReflectionUtils;
@@ -48,7 +50,8 @@ public class Selector implements Sqlable, Wherable<Selector> {
 	public Selector where(String column, String operation, String value) {
 		_where.append(column).append(" ");
 		_where.append(operation).append(" ");
-		_where.append("\"").append(value.replaceAll("\\\"", "\\\\\"")).append("\"").append(" ");
+		_where.append("\"").append(value.replaceAll("\\\"", "\\\\\""))
+				.append("\"").append(" ");
 		return this;
 	}
 
@@ -101,11 +104,16 @@ public class Selector implements Sqlable, Wherable<Selector> {
 		} else {
 			builder.append("All").append(" ");
 		}
-		if (_resultColumn.length() > 0) {
-			builder.append(_resultColumn).append(" ");
-		} else {
-			builder.append("*").append(" ");
+		
+		if (_resultColumn.length() == 0) {
+			for (Field f : ReflectionUtils.getColumnFields(_entity)) {
+				_resultColumn.append(f.getName()).append(",");
+			}
+			if (_resultColumn.length() > 0) {
+				_resultColumn.deleteCharAt(_resultColumn.length() - 1);
+			}
 		}
+		builder.append(_resultColumn).append(" ");
 
 		builder.append("From").append(" ").append(_table).append(" ");
 		if (_where.length() > 0)
