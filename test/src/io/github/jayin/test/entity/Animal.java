@@ -1,6 +1,7 @@
 package io.github.jayin.test.entity;
 
 import com.annotation.Column;
+import com.annotation.Index;
 import com.annotation.Table;
 import com.annotation.Unique;
 import com.annotation.core.Model;
@@ -8,12 +9,14 @@ import com.annotation.core.Model;
 @Table
 public class Animal extends Model {
 	@Unique
+	@Index
 	private int id;
 
 	@Column
 	private int age;
 
 	@Column
+	@Index
 	private String kind;
 
 	@Column
