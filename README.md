@@ -15,6 +15,7 @@ the model
 public class User extends Model {  
 
 	@Column  
+	@Index //index support
 	private long userid; 
 
 	@Column   
