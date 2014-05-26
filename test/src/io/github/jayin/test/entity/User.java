@@ -1,16 +1,19 @@
 package io.github.jayin.test.entity;
 
 import com.annotation.Column;
+import com.annotation.Index;
 import com.annotation.Table;
 import com.annotation.core.Model;
 
 @Table
 public class User extends Model {
 	@Column
+	@Index
 	private long userid;
 	@Column
 	private int age;
 	@Column
+	@Index
 	private String name;
 
 	public long getUserid() {

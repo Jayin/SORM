@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import com.annotation.core.Creater;
+import com.annotation.core.Indexer;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -66,8 +67,8 @@ public class DBUtils {
 	}
 	
 	/**
-	 * create table if not exist
-	 * 
+	 * create table if not exist<br>
+	 * create index automatically after creating table
 	 * @param db
 	 * @param cls
 	 * @throws Exception 
@@ -82,7 +83,11 @@ public class DBUtils {
 				isExist = true;
 			}
 			if (!isExist) {
+				//create table
 				sql = new Creater().from(cls).build();
+				db.execSQL(sql);
+				//create index
+				sql = new Indexer().from(cls).build();
 				db.execSQL(sql);
 			}
 		}catch(Exception e){
