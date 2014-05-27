@@ -130,3 +130,24 @@ public class User extends Model {
 					.build();
 ```
 
+### advance
+
+* drop table & index  
+
+```java
+
+//drop table  
+String sql = new Droper().Table().from(Animal.class).build();  
+//drop index  
+String sql = new Droper().Index().from(Animal.class).build();  
+//invoke  sql  
+DBUtils.execSQL(context,sql);
+
+//why not do this:  
+new Droper().Index().from(cls).excute(getContext());  
+new Droper().Table().from(cls).excute(getContext());  
+```
+
+
+
+
