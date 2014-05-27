@@ -1,7 +1,7 @@
 SORM
 ====
 
-simple ORM for Sqlite
+Simple and stupid ORM for Android
 
 setup
 ===
