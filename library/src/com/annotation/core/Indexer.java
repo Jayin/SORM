@@ -4,7 +4,9 @@ import java.lang.reflect.Field;
 
 import com.annotation.Index;
 import com.annotation.entity.Sqlable;
+import com.annotation.utils.NameBuilder;
 import com.annotation.utils.ReflectionUtils;
+import com.annotation.utils.SqlUtils;
 import com.annotation.utils._;
 
 public class Indexer implements Sqlable {
@@ -25,12 +27,10 @@ public class Indexer implements Sqlable {
 
 	public Indexer from(Class<?> cls) {
 		_talbe = ReflectionUtils.getTableName(cls);
-		_indexName = "index_" + _talbe;
-		Field[] fields = ReflectionUtils.getColumnFields(cls);
-		for (Field f : fields) {
-			if (f.getAnnotation(Index.class) != null)
+		_indexName = NameBuilder.buildIndex(_talbe);
+		Field[] fields = SqlUtils.getIndexField(cls);
+		for (Field f : fields)  
 				_indexedColumns.append(f.getName()).append(",");
-		}
 		if (_indexedColumns.length() > 0)
 			_indexedColumns.deleteCharAt(_indexedColumns.length() - 1);
 		return this;

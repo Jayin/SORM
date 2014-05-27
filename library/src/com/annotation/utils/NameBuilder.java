@@ -1,7 +1,16 @@
 package com.annotation.utils;
 
 
+
 public class NameBuilder {
+	/**
+	 * build Index
+	 * @param tableName
+	 * @return index_tableName
+	 */
+	public static String buildIndex(String tableName){
+		return "index_"+tableName;
+	}
 
 	/**
 	 * build the getter method name<br>
