@@ -1,6 +1,9 @@
 package com.annotation.core;
 
 import java.lang.reflect.Field;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.annotation.entity.Sqlable;
 import com.annotation.entity.Wherable;
 import com.annotation.utils.ReflectionUtils;
@@ -35,6 +38,16 @@ public class Updater implements Sqlable, Wherable<Updater> {
 		_where.append(column).append(" ");
 		_where.append(operation).append(" ");
 		_where.append("\"").append(value.replaceAll("\\\"", "\\\\\"")).append("\"").append(" ");
+		return this;
+	}
+	
+	//只支持单条例如：id = 1  不能: id = 1 and age=18
+	public Updater where(String expression){
+		Pattern p = Pattern.compile("(\\S+)\\s*([!<>=]+)\\s*(\\S+)");
+		Matcher m = p.matcher(expression);
+		if(m.matches()){
+			return where(m.group(1),m.group(2),m.group(3));
+		}
 		return this;
 	}
 
