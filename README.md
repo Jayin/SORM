@@ -1,7 +1,11 @@
 SORM
 ====
 
-simple orm for sqlite
+Simple and stupid ORM for Android
+
+setup
+===
+add this project as you Android project library
 
 
 ## Useage
