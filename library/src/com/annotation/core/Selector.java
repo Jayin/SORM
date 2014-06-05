@@ -1,23 +1,20 @@
 package com.annotation.core;
 
 import java.lang.reflect.Field;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import com.annotation.entity.Sqlable;
-import com.annotation.entity.Wherable;
+import com.annotation.entity.WhereImpl;
 import com.annotation.utils.ReflectionUtils;
 
-public class Selector implements Sqlable, Wherable<Selector> {
+public class Selector extends WhereImpl<Selector>{
 	Class<?> _entity;
 	String _table;
 	int __limit, __offset;
 	boolean _distinct, _all;
-	StringBuffer _where, _groupBy, _orderBy, _resultColumn;
+	StringBuffer  _groupBy, _orderBy, _resultColumn;
 
 	public Selector(String... resultColumn) {
+		super();
 		_resultColumn = new StringBuffer();
-		_where = new StringBuffer();
 		_groupBy = new StringBuffer();
 		_orderBy = new StringBuffer();
 		__limit = -1;
@@ -46,34 +43,6 @@ public class Selector implements Sqlable, Wherable<Selector> {
 	public Selector all() {
 		_distinct = false;
 		_all = true;
-		return this;
-	}
-
-	public Selector where(String column, String operation, String value) {
-		_where.append(column).append(" ");
-		_where.append(operation).append(" ");
-		_where.append("\"").append(value.replaceAll("\\\"", "\\\\\""))
-				.append("\"").append(" ");
-		return this;
-	}
-	
-	//只支持单条例如：id = 1  不能: id = 1 and age=18
-	public Selector where(String expression){
-		Pattern p = Pattern.compile("(\\S+)\\s*([!<>=]+)\\s*(\\S+)");
-		Matcher m = p.matcher(expression);
-		if(m.matches()){
-			return where(m.group(1),m.group(2),m.group(3));
-		}
-		return this;
-	}
-
-	public Selector and() {
-		_where.append("and").append(" ");
-		return this;
-	}
-
-	public Selector or() {
-		_where.append("or").append(" ");
 		return this;
 	}
 
@@ -128,8 +97,8 @@ public class Selector implements Sqlable, Wherable<Selector> {
 		builder.append(_resultColumn).append(" ");
 
 		builder.append("From").append(" ").append(_table).append(" ");
-		if (_where.length() > 0)
-			builder.append("Where").append(" ").append(_where).append(" ");
+		if(hasWhere())
+			builder.append("Where").append(" ").append(getWhere()).append(" ");
 
 		if (_groupBy.length() > 0)
 			builder.append("Group By").append(" ").append(_groupBy).append(" ");

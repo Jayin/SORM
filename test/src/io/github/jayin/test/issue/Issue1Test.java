@@ -13,13 +13,16 @@ public class Issue1Test extends AndroidTestCase {
 	public void deletorTest() {
 		String sql = new Deletor().from(Admin.class).where("id = 1").and()
 				.where("name = Jayin").build();
-		// System.out.println(sql);
+		_.d(sql);
+		 sql = new Deletor().from(Admin.class).build();
 		_.d(sql);
 	}
 
 	public void selectorTest() {
 		String sql = new Selector().from(Admin.class).where("id = 1").and()
 				.where("name = Jayin").build();
+		_.d(sql);
+		 sql =  new Selector().from(Admin.class).build();
 		_.d(sql);
 	}
 
@@ -30,6 +33,9 @@ public class Issue1Test extends AndroidTestCase {
 		String sql = new Updater().update(a).where("id = 1").and()
 				.where("name = Jayin").build();
 		_.d(sql);
+		
+		 sql = new Updater().update(a).build();
+			_.d(sql);
 	}
 
 	public void test_all() {
