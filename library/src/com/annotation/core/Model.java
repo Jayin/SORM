@@ -7,7 +7,6 @@ import com.annotation.Ignore;
 import com.annotation.PrimaryKey;
 import com.annotation.utils.DBHelper;
 import com.annotation.utils.DBUtils;
-import com.annotation.utils._;
 
 public class Model {
 
@@ -30,7 +29,6 @@ public class Model {
 				sql = new Updater().update(this).where("__id", "=", __id + "")
 						.build();
 			}
-			_.d("the sql-->"+sql);
 			db.beginTransaction();
 			DBUtils.createTable(db, this.getClass());
 			db.execSQL(sql);
