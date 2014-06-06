@@ -94,7 +94,8 @@ public class DBUtils {
 				db.execSQL(sql);
 				// create index
 				sql = new Indexer().from(cls).build();
-				db.execSQL(sql);
+				if (sql != null)
+					db.execSQL(sql);
 			}
 		} catch (Exception e) {
 			throw e;
@@ -103,6 +104,7 @@ public class DBUtils {
 
 	/**
 	 * execute a sql with transaction
+	 * 
 	 * @param context
 	 * @param sql
 	 * @throws SQLException

@@ -2,7 +2,6 @@ package com.annotation.core;
 
 import java.lang.reflect.Field;
 
-import com.annotation.Index;
 import com.annotation.entity.Sqlable;
 import com.annotation.utils.NameBuilder;
 import com.annotation.utils.ReflectionUtils;
@@ -43,6 +42,9 @@ public class Indexer implements Sqlable {
 
 	@Override
 	public String build() {
+		if(_indexedColumns == null || _indexedColumns.length() == 0){
+			return null;
+		}
 		StringBuffer builder = new StringBuffer();
 		if (_unique) {
 			builder.append("Create Unique Index ");
