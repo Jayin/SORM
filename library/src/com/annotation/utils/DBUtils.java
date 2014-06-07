@@ -125,4 +125,62 @@ public class DBUtils {
 			}
 		}
 	}
+
+	/**
+	 * insert or update one object
+	 * 
+	 * @param context
+	 * @param cls
+	 * @param sql
+	 * @return false if operate faild
+	 */
+	public static boolean save(Context context, Class<?> cls, String sql) {
+		SQLiteDatabase db = null;
+		try {
+			db = new DBHelper(context).getWritableDatabase();
+			db.beginTransaction();
+			DBUtils.createTable(db, cls);
+			db.execSQL(sql);
+			db.setTransactionSuccessful();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (db != null) {
+				db.endTransaction();
+				db.close();
+			}
+		}
+	}
+	/**
+	 * delete one object
+	 * @param context
+	 * @param cls
+	 * @param sql
+	 * @param __id
+	 * @return false if has not __id or operate faild
+	 */
+	public static boolean delete(Context context, Class<?> cls, String sql,
+			Long __id) {
+		if (__id == null)
+			return false;
+		SQLiteDatabase db = null;
+		try {
+			db = new DBHelper(context).getWritableDatabase();
+			db.beginTransaction();
+			DBUtils.createTable(db, cls);
+			db.execSQL(sql);
+			db.setTransactionSuccessful();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (db != null) {
+				db.endTransaction();
+				db.close();
+			}
+		}
+	}
 }

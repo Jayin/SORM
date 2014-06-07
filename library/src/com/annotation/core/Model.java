@@ -1,12 +1,10 @@
 package com.annotation.core;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.annotation.Ignore;
 import com.annotation.PrimaryKey;
 import com.annotation.entity.ORMcallback;
-import com.annotation.utils.DBHelper;
 import com.annotation.utils.DBUtils;
 
 public class Model {
@@ -18,7 +16,7 @@ public class Model {
 	@PrimaryKey
 	private Long __id = null;
 
-	private boolean saveDone = false,deleteDone = false;
+	private boolean saveDone = false, deleteDone = false;
 
 	public void save(Context context) {
 		synchronized (lock) {
@@ -54,30 +52,15 @@ public class Model {
 			}
 		}).start();
 	}
-	
+
 	public void delete(Context context) {
 		synchronized (lock) {
-			if (this.__id == null)
-				return;
-			SQLiteDatabase db = null;
 			String sql = null;
-			try {
-				db = new DBHelper(context).getWritableDatabase();
-				sql = new Deletor().from(this.getClass())
-						.where("__id", "=", String.valueOf(__id)).build();
-				db.beginTransaction();
-				DBUtils.createTable(db, this.getClass());
-				db.execSQL(sql);
-				db.setTransactionSuccessful();
-				deleteDone = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (db != null) {
-					db.endTransaction();
-					db.close();
-				}
-			}
+			sql = new Deletor().from(this.getClass())
+					.where("__id", "=", String.valueOf(__id)).build();
+			deleteDone = DBUtils.delete(context, this.getClass(), sql,
+					this.__id);
+
 		}
 	}
 
