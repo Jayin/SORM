@@ -8,7 +8,6 @@ import com.annotation.PrimaryKey;
 import com.annotation.entity.ORMcallback;
 import com.annotation.utils.DBHelper;
 import com.annotation.utils.DBUtils;
-import com.annotation.utils._;
 
 public class Model {
 	private static Object lock = new Object();

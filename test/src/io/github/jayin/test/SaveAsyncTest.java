@@ -13,7 +13,7 @@ import com.annotation.entity.ORMcallback;
 import com.annotation.utils._;
 
 public class SaveAsyncTest extends AndroidTestCase {
-
+	long total = 0;
 	public void insert1() {
 		User u1 = new User();
 		u1.setAge(12);
@@ -93,6 +93,42 @@ public class SaveAsyncTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 	}
+	
+	private synchronized void addTime(long cost){
+		_.d("cost-->"+cost);
+		total += cost;
+		_.d("total="+total);
+		_.d("active thread:"+Thread.activeCount());
+	}
+	
+	public void insert3(){
+		for(int i=0;i<100;i++){
+			Admin a = new Admin();
+			a.setAdminName("name"+i);
+			a.setId(i);
+			final long start  =System.currentTimeMillis();
+			a.saveAsync(getContext(),  new ORMcallback() {
+
+				@Override
+				public void onFinish() {
+					long end = System.currentTimeMillis();
+					_.d("onFinish");
+					addTime(end - start);
+				}
+
+				@Override
+				public void onFaild() {
+					_.d("onFaild");
+				}
+			});
+		}
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void delete1() {
 		Selector selector = new Selector().from(User.class);
@@ -147,5 +183,5 @@ public class SaveAsyncTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 	}
-
+	
 }
