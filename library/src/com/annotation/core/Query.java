@@ -30,7 +30,7 @@ public class Query {
 		try {
 			db = new DBHelper(context).getReadableDatabase();
 			// create table if not exist
-			DBUtils.createTable(db, _entity);
+			DBUtils.createTable(context, _entity);
 
 			Cursor cursor = db.rawQuery(sql, null);
 			while (cursor.moveToNext()) {

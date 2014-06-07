@@ -2,6 +2,7 @@ package com.annotation.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -78,9 +79,11 @@ public class DBUtils {
 	 * @param cls
 	 * @throws Exception
 	 */
-	public static void createTable(SQLiteDatabase db, Class<?> cls)
+	public static void createTable(Context context, Class<?> cls)
 			throws Exception {
+		SQLiteDatabase db = null;
 		try {
+			db = new DBHelper(context).getWritableDatabase();
 			String sql = "select * from sqlite_master where type =\"table\" and name = \""
 					+ ReflectionUtils.getTableName(cls) + "\"";
 			Cursor cursor = db.rawQuery(sql, null);
@@ -127,6 +130,31 @@ public class DBUtils {
 	}
 
 	/**
+	 * execute muti sql with transation
+	 * 
+	 * @param context
+	 * @param sqls
+	 */
+	public static void execSQLs(Context context, List<String> sqls) {
+		SQLiteDatabase db = null;
+		try {
+			db = new DBHelper(context).getReadableDatabase();
+			db.beginTransaction();
+			for (String sql : sqls) {
+				db.execSQL(sql);
+			}
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if (db != null) {
+				db.endTransaction();
+				db.close();
+			}
+		}
+	}
+
+	/**
 	 * insert or update one object
 	 * 
 	 * @param context
@@ -135,26 +163,19 @@ public class DBUtils {
 	 * @return false if operate faild
 	 */
 	public static boolean save(Context context, Class<?> cls, String sql) {
-		SQLiteDatabase db = null;
 		try {
-			db = new DBHelper(context).getWritableDatabase();
-			db.beginTransaction();
-			DBUtils.createTable(db, cls);
-			db.execSQL(sql);
-			db.setTransactionSuccessful();
+			DBUtils.createTable(context, cls);
+			DBUtils.execSQL(context, sql);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			if (db != null) {
-				db.endTransaction();
-				db.close();
-			}
 		}
 	}
+
 	/**
 	 * delete one object
+	 * 
 	 * @param context
 	 * @param cls
 	 * @param sql
@@ -165,22 +186,13 @@ public class DBUtils {
 			Long __id) {
 		if (__id == null)
 			return false;
-		SQLiteDatabase db = null;
 		try {
-			db = new DBHelper(context).getWritableDatabase();
-			db.beginTransaction();
-			DBUtils.createTable(db, cls);
-			db.execSQL(sql);
-			db.setTransactionSuccessful();
+			DBUtils.createTable(context, cls);
+			DBUtils.execSQL(context, sql);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			if (db != null) {
-				db.endTransaction();
-				db.close();
-			}
 		}
 	}
 }
