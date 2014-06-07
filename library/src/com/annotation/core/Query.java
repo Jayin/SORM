@@ -7,8 +7,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.annotation.utils.DBUtils;
+import com.annotation.entity.QueryCallback;
 import com.annotation.utils.DBHelper;
+import com.annotation.utils.DBUtils;
 
 public class Query {
 	private Class<?> _entity;
@@ -19,7 +20,7 @@ public class Query {
 		_entity = selector.getEntity();
 	}
 
-	public <T> List<T> excute(Context context) {
+	public <T extends Model> List<T> excute(Context context) {
 		List<T> result = new ArrayList<T>();
 		if (selector == null)
 			throw new NullPointerException("selector Can't be null");
@@ -39,10 +40,22 @@ public class Query {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(db!= null)
+		} finally {
+			if (db != null)
 				db.close();
 		}
 		return result;
+	}
+
+	public void excuteAsync(final Context context, final QueryCallback callback) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (callback != null) {
+					callback.onFinish(excute(context));
+				}
+			}
+		}).start();
 	}
 }
