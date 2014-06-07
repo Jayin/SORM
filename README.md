@@ -64,6 +64,36 @@ public class User extends Model {
 	a1.setAdminName("a111");  
 	a1.setId(1);  
 	a1.save(getContext());  
+	//or you can save in async way
+	a1.saveAsync(getContext(),  new ORMcallback() {
+
+				@Override
+				public void onFinish() {
+					
+				}
+
+				@Override
+				public void onFaild() {
+					
+				}
+			});
+```
+
+### query  
+```java
+
+	List<Admin> admins = new Query(new Selector().from(Admin.class))
+				.excute(getContext());  
+	// or query  in async way
+	Selector selector = new Selector().from(Admin.class);
+	new Query(selector).excuteAsync(getContext(), new QueryCallback() {
+
+			@Override
+			public void onFinish(Object result) {
+				List<Admin> res = (List<Admin>) result;
+			}
+		});
+
 ```
 
 ### delete 
@@ -74,8 +104,25 @@ public class User extends Model {
 				.excute(getContext());  
 	for(Admin a: admins){  
 		a.delete(getContext());  
+		//or you can save in async way
+		a.deleteAsync(getContext(),  new ORMcallback() {
+
+				@Override
+				public void onFinish() {
+				
+				}
+
+				@Override
+				public void onFaild() {
+				
+				}
+			});
 	}  
+
+
 ```
+
+
   
 ### Five Operation
 * build entity  
