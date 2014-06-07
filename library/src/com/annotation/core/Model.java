@@ -18,37 +18,25 @@ public class Model {
 	@PrimaryKey
 	private Long __id = null;
 
-	private boolean done = false;
+	private boolean saveDone = false,deleteDone = false;
 
 	public void save(Context context) {
 		synchronized (lock) {
-			SQLiteDatabase db = null;
-			String sql = null;
-			try {
-				db = new DBHelper(context).getWritableDatabase();
-				if (__id == null) {
-					// insert
-					sql = new Inserter().insert(this).build();
-				} else {
-					// update
-					sql = new Updater().update(this)
-							.where("__id", "=", __id + "").build();
-				}
-				db.beginTransaction();
-				DBUtils.createTable(db, this.getClass());
-				db.execSQL(sql);
-				db.setTransactionSuccessful();
-				done = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (db != null) {
-					db.endTransaction();
-					db.close();
-				}
-			}
-		}
 
+			String sql = null;
+
+			if (__id == null) {
+				// insert
+				sql = new Inserter().insert(this).build();
+			} else {
+				// update
+				sql = new Updater().update(this).where("__id", "=", __id + "")
+						.build();
+			}
+
+			saveDone = DBUtils.save(context, this.getClass(), sql);
+
+		}
 	}
 
 	public void saveAsync(final Context context, final ORMcallback callback) {
@@ -58,7 +46,7 @@ public class Model {
 			public void run() {
 				Model.this.save(context);
 				if (callback != null) {
-					if (done)
+					if (saveDone)
 						callback.onFinish();
 					else
 						callback.onFaild();
@@ -66,7 +54,7 @@ public class Model {
 			}
 		}).start();
 	}
-
+	
 	public void delete(Context context) {
 		synchronized (lock) {
 			if (this.__id == null)
@@ -81,6 +69,7 @@ public class Model {
 				DBUtils.createTable(db, this.getClass());
 				db.execSQL(sql);
 				db.setTransactionSuccessful();
+				deleteDone = true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -99,7 +88,7 @@ public class Model {
 			public void run() {
 				Model.this.delete(context);
 				if (callback != null) {
-					if (done)
+					if (deleteDone)
 						callback.onFinish();
 					else
 						callback.onFaild();

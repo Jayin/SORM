@@ -46,20 +46,11 @@ public class SaveTest extends AndroidTestCase {
 	}
 	
 	public void insert4() {
-		 Admin a1 = new Admin();
-		 a1.setAdminName("aa11");
-		 a1.setId(1);
-		 a1.set__id(Long.valueOf("4"));
-		 a1.save(getContext());
-		 
-		 a1.setAdminName("aa22");
-		 a1.setId(2);
-		 a1.set__id(Long.valueOf("5"));
-		 a1.save(getContext());
-		 
-		 a1.setAdminName("aa33");
-		 a1.setId(3);
-		 a1.set__id(Long.valueOf("6"));
-		 a1.save(getContext());
+		for(int i=0;i<100;i++){
+			 Admin a1 = new Admin();
+			 a1.setAdminName("a"+i);
+			 a1.setId(i+100);
+			 a1.save(getContext());
+		 }
 	}
 }
