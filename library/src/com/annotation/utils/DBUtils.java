@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +20,38 @@ import com.annotation.core.Updater;
 import com.annotation.entity.ORMcallback;
 
 public class DBUtils {
+	public static final String PerferenceName = "DBConfign";
+	public static final String Last_Clean = "last_clean";
+	public static final long Interval = 14*24*60*60*1000; //release the db in every 2 week
+
+	/**
+	 * If you have deleted a great amount of data,and you want to small the db file's space,
+	 * just called this method.<br>
+	 * Typically,you called this in Application.onCreate(),or the lanuch acticity.onCreate()
+	 * @param context
+	 */
+	public static void releaseDB(Context context) {
+		SharedPreferences sp = context.getSharedPreferences(PerferenceName, Context.MODE_PRIVATE);
+		long last_clean = sp.getLong(Last_Clean, -1);
+		if(last_clean == -1){
+			sp.edit().putLong(Last_Clean, System.currentTimeMillis()).apply();
+		}else{
+			if(System.currentTimeMillis() - last_clean >= Interval){
+				SQLiteDatabase db = null;
+				try{
+					db = new DBHelper(context).getWritableDatabase();
+					db.execSQL("VACUUM");
+					sp.edit().putLong(Last_Clean, System.currentTimeMillis()).apply();
+				}catch(Exception e){
+					e.printStackTrace();
+				}finally{
+					if(db != null)
+						db.close();
+				}
+			}
+		}
+	}
+
 	/**
 	 * genearate a entity from Cursor
 	 * 
@@ -297,7 +330,7 @@ public class DBUtils {
 			return false;
 		}
 	}
-	
+
 	public static <T extends Model> void deleteBatchAsync(
 			final Context context, final Class<?> cls, final List<T> models,
 			final ORMcallback callback) {
