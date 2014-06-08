@@ -16,6 +16,7 @@ import com.annotation.core.Indexer;
 import com.annotation.core.Inserter;
 import com.annotation.core.Model;
 import com.annotation.core.Updater;
+import com.annotation.entity.ORMcallback;
 
 public class DBUtils {
 	/**
@@ -129,10 +130,11 @@ public class DBUtils {
 		}
 		return sql;
 	}
-	
-	public static <T extends Model> String createDeleteSql(T t){
+
+	public static <T extends Model> String createDeleteSql(T t) {
 		String sql = new Deletor().from(t.getClass())
-				.where("__id", "=", String.valueOf( ((Model) t).get__id())).build();
+				.where("__id", "=", String.valueOf(((Model) t).get__id()))
+				.build();
 		return sql;
 	}
 
@@ -162,13 +164,14 @@ public class DBUtils {
 
 	/**
 	 * execute muti sql with transation
+	 * 
 	 * @param context
 	 * @param sqls
 	 */
 	public static void execSQLs(Context context, List<String> sqls) {
 		if (sqls == null)
 			throw new NullPointerException();
-		if(sqls.size() == 0 )
+		if (sqls.size() == 0)
 			return;
 		SQLiteDatabase db = null;
 		try {
@@ -206,6 +209,7 @@ public class DBUtils {
 			return false;
 		}
 	}
+
 	/**
 	 * 
 	 * @param context
@@ -215,9 +219,9 @@ public class DBUtils {
 	 */
 	public static <T extends Model> boolean saveBatch(Context context,
 			Class<?> cls, List<T> models) {
-		if(models == null) 
+		if (models == null)
 			throw new NullPointerException();
-		if(models.size() == 0 )
+		if (models.size() == 0)
 			return false;
 		List<String> sqls = new ArrayList<String>();
 		for (T t : models) {
@@ -231,6 +235,24 @@ public class DBUtils {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public static <T extends Model> void saveBatchAsync(final Context context,
+			final Class<?> cls, final List<T> models, final ORMcallback callback) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (saveBatch(context, cls, models)) {
+					if (callback != null)
+						callback.onFinish();
+				} else {
+					if (callback != null)
+						callback.onFaild();
+				}
+
+			}
+		}).start();
 	}
 
 	/**
@@ -255,14 +277,15 @@ public class DBUtils {
 			return false;
 		}
 	}
-	
-	public static <T extends Model> boolean deleteBatch(Context context,Class<?> cls, List<T> models){
-		if(models == null)
+
+	public static <T extends Model> boolean deleteBatch(Context context,
+			Class<?> cls, List<T> models) {
+		if (models == null)
 			throw new NullPointerException();
-		if(models.size() == 0)
+		if (models.size() == 0)
 			return false;
 		List<String> sqls = new ArrayList<String>();
-		for(T t:models){
+		for (T t : models) {
 			sqls.add(createDeleteSql(t));
 		}
 		try {
@@ -273,6 +296,25 @@ public class DBUtils {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public static <T extends Model> void deleteBatchAsync(
+			final Context context, final Class<?> cls, final List<T> models,
+			final ORMcallback callback) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (deleteBatch(context, cls, models)) {
+					if (callback != null)
+						callback.onFinish();
+				} else {
+					if (callback != null)
+						callback.onFaild();
+				}
+
+			}
+		}).start();
 	}
 
 }
