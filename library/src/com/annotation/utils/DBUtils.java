@@ -2,6 +2,7 @@ package com.annotation.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -11,6 +12,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.annotation.core.Creater;
 import com.annotation.core.Indexer;
+import com.annotation.core.Inserter;
+import com.annotation.core.Model;
+import com.annotation.core.Updater;
 
 public class DBUtils {
 	/**
@@ -84,6 +88,7 @@ public class DBUtils {
 		SQLiteDatabase db = null;
 		try {
 			db = new DBHelper(context).getWritableDatabase();
+			db.beginTransaction();
 			String sql = "select * from sqlite_master where type =\"table\" and name = \""
 					+ ReflectionUtils.getTableName(cls) + "\"";
 			Cursor cursor = db.rawQuery(sql, null);
@@ -99,10 +104,30 @@ public class DBUtils {
 				sql = new Indexer().from(cls).build();
 				if (sql != null)
 					db.execSQL(sql);
+				db.setTransactionSuccessful();
 			}
 		} catch (Exception e) {
 			throw e;
+		}finally{
+			if(db != null){
+				db.endTransaction();
+				db.close();
+			}
 		}
+	}
+	
+	public static <T extends Model> String createSaveSql(T t){
+		String sql = null;
+		Long __id = ((Model)t).get__id();
+		if (__id == null) {
+			// insert
+			sql = new Inserter().insert(t).build();
+		} else {
+			// update
+			sql = new Updater().update(t).where("__id", "=", __id + "")
+					.build();
+		}
+		return sql;
 	}
 
 	/**
@@ -172,7 +197,7 @@ public class DBUtils {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * delete one object
 	 * 
@@ -195,4 +220,6 @@ public class DBUtils {
 			return false;
 		}
 	}
+	
+	
 }

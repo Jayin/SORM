@@ -21,17 +21,7 @@ public class Model {
 	public void save(Context context) {
 		synchronized (lock) {
 
-			String sql = null;
-
-			if (__id == null) {
-				// insert
-				sql = new Inserter().insert(this).build();
-			} else {
-				// update
-				sql = new Updater().update(this).where("__id", "=", __id + "")
-						.build();
-			}
-
+			String sql =DBUtils.createSaveSql(this);
 			saveDone = DBUtils.save(context, this.getClass(), sql);
 
 		}
