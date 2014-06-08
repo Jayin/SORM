@@ -129,6 +129,35 @@ public class SaveAsyncTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 	}
+	
+	public void update3(){
+		List<Admin> result = new Query(new Selector().from(Admin.class)).excute(getContext());
+		int total = 0;
+		for(Admin a :result){
+			_.d("deal with --->"+a.get__id());
+			total++;
+			a.setAdminName("updat-"+a.getAdminName());
+			a.saveAsync(getContext(), new ORMcallback() {
+
+				@Override
+				public void onFinish() {
+					_.d("onFinish");
+				}
+
+				@Override
+				public void onFaild() {
+					_.d("onFaild");
+				}
+			});
+		}
+		_.d("total = "+total);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void delete1() {
 		Selector selector = new Selector().from(User.class);
@@ -157,8 +186,8 @@ public class SaveAsyncTest extends AndroidTestCase {
 		}
 	}
 
-	// 删除3个
-	public void delete2() {
+	// 删除多个
+	public void delete3() {
 		Selector selector = new Selector().from(Admin.class);
 		List<Admin> admins = new Query(selector).excute(getContext());
 		for (Admin a : admins) {

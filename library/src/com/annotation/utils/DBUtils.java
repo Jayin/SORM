@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.annotation.core.Creater;
+import com.annotation.core.Deletor;
 import com.annotation.core.Indexer;
 import com.annotation.core.Inserter;
 import com.annotation.core.Model;
@@ -108,25 +109,30 @@ public class DBUtils {
 			}
 		} catch (Exception e) {
 			throw e;
-		}finally{
-			if(db != null){
+		} finally {
+			if (db != null) {
 				db.endTransaction();
 				db.close();
 			}
 		}
 	}
-	
-	public static <T extends Model> String createSaveSql(T t){
+
+	public static <T extends Model> String createSaveSql(T t) {
 		String sql = null;
-		Long __id = ((Model)t).get__id();
+		Long __id = ((Model) t).get__id();
 		if (__id == null) {
 			// insert
 			sql = new Inserter().insert(t).build();
 		} else {
 			// update
-			sql = new Updater().update(t).where("__id", "=", __id + "")
-					.build();
+			sql = new Updater().update(t).where("__id", "=", __id + "").build();
 		}
+		return sql;
+	}
+	
+	public static <T extends Model> String createDeleteSql(T t){
+		String sql = new Deletor().from(t.getClass())
+				.where("__id", "=", String.valueOf( ((Model) t).get__id())).build();
 		return sql;
 	}
 
@@ -156,11 +162,14 @@ public class DBUtils {
 
 	/**
 	 * execute muti sql with transation
-	 * 
 	 * @param context
 	 * @param sqls
 	 */
 	public static void execSQLs(Context context, List<String> sqls) {
+		if (sqls == null)
+			throw new NullPointerException();
+		if(sqls.size() == 0 )
+			return;
 		SQLiteDatabase db = null;
 		try {
 			db = new DBHelper(context).getReadableDatabase();
@@ -197,7 +206,33 @@ public class DBUtils {
 			return false;
 		}
 	}
-	
+	/**
+	 * 
+	 * @param context
+	 * @param cls
+	 * @param models
+	 * @return false if models.size() == 0 or operate faild
+	 */
+	public static <T extends Model> boolean saveBatch(Context context,
+			Class<?> cls, List<T> models) {
+		if(models == null) 
+			throw new NullPointerException();
+		if(models.size() == 0 )
+			return false;
+		List<String> sqls = new ArrayList<String>();
+		for (T t : models) {
+			sqls.add(createSaveSql(t));
+		}
+		try {
+			DBUtils.createTable(context, cls);
+			DBUtils.execSQLs(context, sqls);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	/**
 	 * delete one object
 	 * 
@@ -221,5 +256,23 @@ public class DBUtils {
 		}
 	}
 	
-	
+	public static <T extends Model> boolean deleteBatch(Context context,Class<?> cls, List<T> models){
+		if(models == null)
+			throw new NullPointerException();
+		if(models.size() == 0)
+			return false;
+		List<String> sqls = new ArrayList<String>();
+		for(T t:models){
+			sqls.add(createDeleteSql(t));
+		}
+		try {
+			DBUtils.createTable(context, cls);
+			DBUtils.execSQLs(context, sqls);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }
