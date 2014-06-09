@@ -1,7 +1,6 @@
 package com.annotation.core;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import com.annotation.entity.Sqlable;
 import com.annotation.utils.NameBuilder;
 import com.annotation.utils.ReflectionUtils;

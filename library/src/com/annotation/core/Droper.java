@@ -1,10 +1,8 @@
 package com.annotation.core;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.annotation.entity.Sqlable;
-import com.annotation.utils.DBHelper;
 import com.annotation.utils.DBUtils;
 import com.annotation.utils.NameBuilder;
 import com.annotation.utils.ReflectionUtils;

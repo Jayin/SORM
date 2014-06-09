@@ -18,7 +18,6 @@ public class QueryAsyncTest extends AndroidTestCase {
 
 		Selector selector = new Selector().from(Admin.class);
 
-		List<Admin> res = new Query(selector).excute(getContext());
 		new Query(selector).excuteAsync(getContext(), new QueryCallback() {
 
 			@SuppressWarnings("unchecked")
