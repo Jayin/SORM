@@ -2,12 +2,11 @@ package io.github.jayin.test;
 
 import io.github.jayin.test.entity.Animal;
 import io.github.jayin.test.entity.User;
+import android.test.AndroidTestCase;
 
-import com.annotation.core.Creater;
+import com.annotation.core.Creator;
 import com.annotation.core.Indexer;
 import com.annotation.utils._;
-
-import android.test.AndroidTestCase;
 
 public class IndexerTest extends AndroidTestCase {
 
@@ -21,7 +20,7 @@ public class IndexerTest extends AndroidTestCase {
 	}
 
 	public void createTable(Class<?> cls) {
-		String sql = new Creater().from(cls).build();
+		String sql = new Creator().from(cls).build();
 		_.d(sql);
 	}
 

@@ -11,7 +11,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.annotation.core.Creater;
+import com.annotation.core.Creator;
 import com.annotation.core.Deletor;
 import com.annotation.core.Indexer;
 import com.annotation.core.Inserter;
@@ -133,7 +133,7 @@ public class DBUtils {
 			}
 			if (!isExist) {
 				// create table
-				sql = new Creater().from(cls).build();
+				sql = new Creator().from(cls).build();
 				db.execSQL(sql);
 				// create index
 				sql = new Indexer().from(cls).build();
