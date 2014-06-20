@@ -4,10 +4,9 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.annotation.PrimaryKey;
+import com.annotation.Unique;
 import com.annotation.core.Creator;
 import com.annotation.core.Model;
-import com.annotation.utils._;
 
 public class CreatorTest extends BaseTest{
 
@@ -16,20 +15,23 @@ public class CreatorTest extends BaseTest{
 	}
 
 	@Override
-	protected void testQueue() {
+	protected void testQueue() throws Exception {
 		create_test1();
 		
 	}
 	
-	public void create_test1(){
+	public void create_test1() throws Exception{
 		String sql =new Creator().from(Student.class).build();
-		_.d(sql);
+		if(!sql.equals("Create Table Student (name TEXT ,id INTEGER Unique,age INTEGER ,height INTEGER ,wight INTEGER ,__id INTEGER )")){
+			throw new Exception("CreatorTest Error");
+		}
+	    
 	}
 	 
 }
 
 class Student extends Human {
-	@PrimaryKey
+	@Unique
 	long id;
 	
 	int age;

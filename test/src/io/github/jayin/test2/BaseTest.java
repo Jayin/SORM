@@ -8,9 +8,14 @@ public abstract class BaseTest {
 
 	public BaseTest(Context context) {
 		this.context = context;
-		setup();
-		testQueue();
-		tearDown();
+		try{
+			setup();
+			testQueue();
+			tearDown();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 	protected void setup() {
@@ -25,5 +30,7 @@ public abstract class BaseTest {
 		return context;
 	}
 
-	protected abstract void testQueue();
+	protected abstract void testQueue() throws Exception;
+	
+	 
 }

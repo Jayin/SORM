@@ -3,7 +3,6 @@ package com.annotation.core;
 import android.content.Context;
 
 import com.annotation.Ignore;
-import com.annotation.PrimaryKey;
 import com.annotation.entity.ORMcallback;
 import com.annotation.utils.DBUtils;
 
@@ -13,7 +12,7 @@ public class Model {
 	@Ignore
 	private Context context;
 
-	@PrimaryKey
+
 	private Long __id = null;
 
 	private boolean saveDone = false, deleteDone = false;
