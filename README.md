@@ -8,7 +8,7 @@ setup
 add this project as you Android project library
 
 
-## Useage
+## Usage
 
 ### Create a table 
 
