@@ -1,6 +1,7 @@
 language: android
-install: ant deps
+install: ant library
 android:
   components:
-    - build-tools-19.1
+    - build-tools-19.0.2
     - android-14
+ant test
