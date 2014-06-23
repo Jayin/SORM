@@ -1,4 +1,4 @@
-SORM [![GitHub version](https://badge.fury.io/gh/Jayin%2FSORM.png)](http://badge.fury.io/gh/Jayin%2FSORM)
+SORM [![GitHub version](https://badge.fury.io/gh/Jayin%2FSORM.svg)](http://badge.fury.io/gh/Jayin%2FSORM)
 ====
 
 Simple and stupid ORM for Android
